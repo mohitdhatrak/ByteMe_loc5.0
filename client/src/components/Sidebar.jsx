@@ -36,9 +36,9 @@ import { IconType } from 'react-icons';
 import { ReactText } from 'react';
 
 const LinkItems = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Trending', icon: FiTrendingUp },
-  { name: 'Explore', icon: FiCompass },
+  { name: 'APIs', icon: FiHome },
+  { name: 'Generate Coupon', icon: FiTrendingUp },
+  { name: 'My Coupons', icon: FiCompass },
   { name: 'Favourites', icon: FiStar },
   { name: 'Settings', icon: FiSettings },
 ];
@@ -46,7 +46,11 @@ const LinkItems = [
 export function Sidebar({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+    // <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Box >
+
+
+
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
@@ -64,6 +68,10 @@ export function Sidebar({ children }) {
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
+
+
+
+
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
     </Box>
@@ -80,6 +88,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       w={{ base: 'full', md: 60 }}
       pos="fixed"
       h="full"
+      sx={{ width: '90%' }}
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
@@ -88,12 +97,20 @@ const SidebarContent = ({ onClose, ...rest }) => {
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
+
       {LinkItems.map(link => (
         <NavItem key={link.name} icon={link.icon}>
           {link.name}
         </NavItem>
       ))}
     </Box>
+    // <Box>
+    //   <Flex>
+    //     <Text>
+    //       hi
+    //     </Text>
+    //   </Flex>
+    // </Box>
   );
 };
 
@@ -129,6 +146,7 @@ const NavItem = ({ icon, children, ...rest }) => {
         )}
         {children}
       </Flex>
+
     </Link>
   );
 };
