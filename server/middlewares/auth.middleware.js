@@ -7,6 +7,7 @@ function requireAuth(req, res, next) {
 
     if (user) {
         req.user = user;
+        console.log(user);
         next();
     } else {
         res.status(401).json({ message: "Token invalid" });

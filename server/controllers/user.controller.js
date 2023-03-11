@@ -1,3 +1,4 @@
+const { Coupon } = require("../models/coupons.model");
 const { User } = require("../models/user.model");
 const { createJwtToken } = require("../utils/createJwtToken");
 
@@ -125,9 +126,20 @@ const getUser = async (req, res) => {
     });
 };
 
+const mycoupons = async(req,res)=>{
+    try {
+        const coupons = await Coupon.find({owner:req.user._id});
+        res.status(201).json({coupons:coupons});
+        
+    } catch (error) {
+        res.status(501).json({message:error.message});
+    }
+    
+}
 module.exports = {
     signup,
     login,
     logout,
     getUser,
+    mycoupons
 };
