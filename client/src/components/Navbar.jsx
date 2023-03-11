@@ -14,12 +14,14 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  Image,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { useAuth } from '../context/auth-context';
+import logo from '../assets/logo.png';
 
-const Links = ['Dashboard', 'Projects', 'Team'];
+const Links = [];
 
 const NavLink = ({ children }) => (
   <Link
@@ -51,9 +53,9 @@ const BtnsBeforeLogin = () => {
         fontSize={'sm'}
         fontWeight={400}
         variant={'link'}
-        href={'#'}
+        href={'/login'}
       >
-        Sign In
+        Log In
       </Button>
       <Button
         as={'a'}
@@ -62,7 +64,7 @@ const BtnsBeforeLogin = () => {
         fontWeight={600}
         color={'white'}
         bg={'pink.400'}
-        href={'#'}
+        href={'signup'}
         _hover={{
           bg: 'pink.300',
         }}
@@ -119,7 +121,15 @@ export function Navbar() {
           onClick={isOpen ? onClose : onOpen}
         />
         <HStack spacing={8} alignItems={'center'}>
-          <Box>Logo</Box>
+          <Box>
+            {' '}
+            <Image
+              boxSize="100px"
+              objectFit="cover"
+              src={logo}
+              alt="Dan Abramov"
+            />
+          </Box>
           <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
             {Links.map(link => (
               <NavLink key={link}>{link}</NavLink>

@@ -43,7 +43,7 @@ export function Signup() {
         const {
           data: { userId, message },
         } = await axios.post(
-          `${process.env.REACT_APP_API_ENDPOINT}/user/signup`,
+          `${process.env.REACT_APP_API_ENDPOINT}/api/user/signup`,
           {
             firstName: formData.firstName,
             lastName: formData.lastName,
@@ -115,7 +115,7 @@ export function Signup() {
                       Sign up
                     </Heading>
                     <Text fontSize={'lg'} color={'gray.600'}>
-                      to enjoy all of our cool features ✌️
+                      to use all of our cool features
                     </Text>
                   </Stack>
                   <Box
@@ -177,11 +177,11 @@ export function Signup() {
                           Sign up
                         </Button>
                       </Stack>
-                      <Stack pt={6}>
+                      <Stack pt={4}>
                         <Text align={'center'}>
                           Already a user?{' '}
                           <Link color={'blue.400'} href="/login">
-                            Login
+                            Log in
                           </Link>
                         </Text>
                       </Stack>

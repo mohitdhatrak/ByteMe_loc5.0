@@ -10,6 +10,9 @@ import {
   Stack,
   Image,
   useToast,
+  InputGroup,
+  InputRightElement,
+  Text,
 } from '@chakra-ui/react';
 import { Navbar } from '../components/Navbar';
 import axios from 'axios';
@@ -19,8 +22,10 @@ import { validateForm } from '../utils/validateForm';
 import { useState } from 'react';
 import { Form, Formik } from 'formik';
 import { InputFieldForm } from '../components/InputFieldForm';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
 export function Login() {
+  const [showPassword, setShowPassword] = useState(false);
   const { setCurrentUser } = useAuth();
   const toast = useToast();
 
@@ -37,7 +42,7 @@ export function Login() {
         const {
           data: { userId, message },
         } = await axios.post(
-          `${process.env.REACT_APP_API_ENDPOINT}/user/login`,
+          `${process.env.REACT_APP_API_ENDPOINT}/api/user/login`,
           {
             email: formData.email,
             password: formData.password,
@@ -110,7 +115,22 @@ export function Login() {
                   </FormControl>
                   <FormControl id="password">
                     <FormLabel>Password</FormLabel>
-                    <InputFieldForm name="password" type="password" />
+                    <InputGroup>
+                      <InputFieldForm
+                        name="password"
+                        type={showPassword ? 'text' : 'password'}
+                      />
+                      <InputRightElement h={'full'}>
+                        <Button
+                          variant={'ghost'}
+                          onClick={() =>
+                            setShowPassword(showPassword => !showPassword)
+                          }
+                        >
+                          {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
                   </FormControl>
                   <Stack spacing={6}>
                     <Stack
@@ -118,8 +138,11 @@ export function Login() {
                       align={'start'}
                       justify={'space-between'}
                     >
-                      <Checkbox>Remember me</Checkbox>
-                      <Link color={'blue.500'} href="/forgot-password">
+                      <Link
+                        color={'blue.500'}
+                        href="/forgot-password"
+                        margin="auto"
+                      >
                         Forgot password?
                       </Link>
                     </Stack>
@@ -129,8 +152,16 @@ export function Login() {
                       type="submit"
                       isLoading={isSubmitting}
                     >
-                      Sign in
+                      Log in
                     </Button>
+                  </Stack>
+                  <Stack pt={3}>
+                    <Text align={'center'}>
+                      New user?{' '}
+                      <Link color={'blue.400'} href="/signup">
+                        Sign up
+                      </Link>
+                    </Text>
                   </Stack>
                 </Stack>
               </Form>
