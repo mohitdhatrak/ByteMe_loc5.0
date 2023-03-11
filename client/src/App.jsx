@@ -13,10 +13,11 @@ import { useAuth } from './context/auth-context';
 import axios from 'axios';
 import { Error404Page } from './pages/Error404Page';
 import { Home } from './pages/Home';
-import { createAction, Login } from './pages/Login';
+import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { NewPassword } from './pages/NewPassword';
+import { CouponForm } from './pages/CouponForm';
 
 export function App() {
   const { currentUser, setCurrentUser, loading, setLoading } = useAuth();
@@ -28,7 +29,7 @@ export function App() {
       try {
         const {
           data: { userId, message },
-        } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/user`, {
+        } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user`, {
           withCredentials: true,
         });
 
@@ -52,6 +53,7 @@ export function App() {
         <>
           <Routes>
             <Route path="/" element={<Home />}></Route>
+            <Route path="/coupon-form" element={<CouponForm />}></Route>
 
             {currentUser === '' ? (
               <>

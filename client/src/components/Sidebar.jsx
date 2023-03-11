@@ -8,6 +8,7 @@ import {
   HStack,
   VStack,
   Icon,
+  chakra,
   useColorModeValue,
   Link,
   Drawer,
@@ -21,6 +22,14 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Button,
+  Stack,
+  useToast,
+  SimpleGrid,
+  Stat,
+  StatLabel,
+  StatNumber,
+  Image,
 } from '@chakra-ui/react';
 import {
   FiHome,
@@ -29,11 +38,12 @@ import {
   FiStar,
   FiSettings,
   FiMenu,
-  FiBell,
-  FiChevronDown,
 } from 'react-icons/fi';
-import { IconType } from 'react-icons';
-import { ReactText } from 'react';
+import { ColorModeSwitcher } from './ColorModeSwitcher';
+import { useAuth } from '../context/auth-context';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import logo from '../assets/logo.png';
 
 const LinkItems = [
   { name: 'APIs', icon: FiHome },
@@ -43,38 +53,91 @@ const LinkItems = [
   { name: 'Settings', icon: FiSettings },
 ];
 
+function StatsCard(props) {
+  const { title, stat } = props;
+  return (
+    <Stat
+      px={{ base: 4, md: 8 }}
+      py={'5'}
+      shadow={'xl'}
+      border={'1px solid'}
+      borderColor={useColorModeValue('gray.800', 'gray.500')}
+      rounded={'lg'}
+    >
+      <StatLabel fontSize={'2xl'} fontWeight={'medium'} pb={'5'} isTruncated>
+        {title}
+      </StatLabel>
+      <StatNumber fontSize={'xl'} fontWeight={'light'}>
+        {stat}
+      </StatNumber>
+    </Stat>
+  );
+}
+
 export function Sidebar({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    // <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
-    <Box >
+    <>
+      <Box>
+        <SidebarContent
+          onClose={() => onClose}
+          display={{ base: 'none', md: 'block' }}
+        />
+        <Drawer
+          autoFocus={false}
+          isOpen={isOpen}
+          placement="left"
+          onClose={onClose}
+          returnFocusOnClose={false}
+          onOverlayClick={onClose}
+          size="full"
+        >
+          <DrawerContent>
+            <SidebarContent onClose={onClose} />
+          </DrawerContent>
+        </Drawer>
 
+        {/* mobilenav */}
+        <MobileNav onOpen={onOpen} />
+      </Box>
 
-
-      <SidebarContent
-        onClose={() => onClose}
-        display={{ base: 'none', md: 'block' }}
-      />
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full"
+      <Box
+        maxW="60vw"
+        height="90vh"
+        mx={'auto'}
+        ml={'25rem'}
+        pt={5}
+        px={{ base: 2, sm: 12, md: 17 }}
       >
-        <DrawerContent>
-          <SidebarContent onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-
-
-
-
-      {/* mobilenav */}
-      <MobileNav onOpen={onOpen} />
-    </Box>
+        <chakra.h1
+          textAlign={'center'}
+          fontSize={'4xl'}
+          py={10}
+          fontWeight={'bold'}
+        >
+          What services we provide?
+        </chakra.h1>
+        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
+          <StatsCard
+            title={'Static coupons'}
+            stat={'Provide data to generate a simple static coupon'}
+          />
+          <StatsCard
+            title={'Dynamic coupons'}
+            stat={
+              'Using AI to create dynamic coupons as per user data analysis'
+            }
+          />
+          <StatsCard
+            title={'Rule engine'}
+            stat={
+              'Using a rule engine to validate coupons against a set of rules by merchant'
+            }
+          />
+        </SimpleGrid>
+      </Box>
+    </>
   );
 }
 
@@ -92,8 +155,22 @@ const SidebarContent = ({ onClose, ...rest }) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
+        <Text
+          fontSize="2xl"
+          fontFamily="monospace"
+          fontWeight="bold"
+          display={'flex'}
+          direction={'row'}
+        >
+          <Image
+            boxSize="40px"
+            borderRadius={'50%'}
+            objectFit="cover"
+            src={logo}
+            alt="App logo"
+            mr={'2'}
+          />
+          Couponify
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
@@ -104,13 +181,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
         </NavItem>
       ))}
     </Box>
-    // <Box>
-    //   <Flex>
-    //     <Text>
-    //       hi
-    //     </Text>
-    //   </Flex>
-    // </Box>
   );
 };
 
@@ -146,12 +216,13 @@ const NavItem = ({ icon, children, ...rest }) => {
         )}
         {children}
       </Flex>
-
     </Link>
   );
 };
 
 const MobileNav = ({ onOpen, ...rest }) => {
+  const { currentUser } = useAuth();
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -172,65 +243,116 @@ const MobileNav = ({ onOpen, ...rest }) => {
         icon={<FiMenu />}
       />
 
-      <Text
-        display={{ base: 'flex', md: 'none' }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold"
-      >
-        Logo
-      </Text>
-
-      <HStack spacing={{ base: '0', md: '6' }}>
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<FiBell />}
-        />
-        <Flex alignItems={'center'}>
-          <Menu>
-            <MenuButton
-              py={2}
-              transition="all 0.3s"
-              _focus={{ boxShadow: 'none' }}
-            >
-              <HStack>
-                <Avatar
-                  size={'sm'}
-                  src={
-                    'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
-                />
-                <VStack
-                  display={{ base: 'none', md: 'flex' }}
-                  alignItems="flex-start"
-                  spacing="1px"
-                  ml="2"
-                >
-                  <Text fontSize="sm">Justina Clark</Text>
-                  <Text fontSize="xs" color="gray.600">
-                    Admin
-                  </Text>
-                </VStack>
-                <Box display={{ base: 'none', md: 'flex' }}>
-                  <FiChevronDown />
-                </Box>
-              </HStack>
-            </MenuButton>
-            <MenuList
-              bg={useColorModeValue('white', 'gray.900')}
-              borderColor={useColorModeValue('gray.200', 'gray.700')}
-            >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
-              <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
-            </MenuList>
-          </Menu>
-        </Flex>
+      <HStack spacing={{ base: '2', md: '6' }}>
+        {currentUser === '' ? <BtnsBeforeLogin /> : <BtnsAfterLogin />}
       </HStack>
     </Flex>
   );
+};
+
+const BtnsBeforeLogin = () => {
+  return (
+    <Stack
+      flex={{ base: 1, md: 0 }}
+      justify={'flex-end'}
+      direction={'row'}
+      spacing={6}
+    >
+      <ColorModeSwitcher />
+
+      <Flex alignItems={'center'}>
+        <Button
+          as={'a'}
+          display={{ base: 'none', md: 'inline-flex' }}
+          fontSize={'sm'}
+          fontWeight={600}
+          color={'white'}
+          bg={'pink.400'}
+          href={'signup'}
+          _hover={{
+            bg: 'pink.300',
+          }}
+          mr={'2'}
+        >
+          Sign Up
+        </Button>
+      </Flex>
+    </Stack>
+  );
+};
+
+const BtnsAfterLogin = () => {
+  const navigate = useNavigate();
+  const { setCurrentUser } = useAuth();
+  const toast = useToast();
+
+  return (
+    <>
+      <ColorModeSwitcher />
+
+      <Flex alignItems={'center'}>
+        <Menu>
+          <MenuButton
+            py={2}
+            transition="all 0.3s"
+            _focus={{ boxShadow: 'none' }}
+          >
+            <HStack>
+              <Avatar
+                size={'sm'}
+                src={
+                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
+                }
+              />
+            </HStack>
+          </MenuButton>
+          <MenuList
+            minW={'8rem !important'}
+            bg={useColorModeValue('white', 'gray.900')}
+            borderColor={useColorModeValue('gray.200', 'gray.700')}
+          >
+            <MenuItem>Profile</MenuItem>
+            <MenuItem
+              onClick={() => logUserOut(navigate, setCurrentUser, toast)}
+            >
+              Sign out
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </Flex>
+    </>
+  );
+};
+
+const logUserOut = async (navigate, setCurrentUser, toast) => {
+  setCurrentUser('');
+
+  try {
+    const {
+      data: { message },
+    } = await axios.get(
+      `${process.env.REACT_APP_API_ENDPOINT}/api/user/logout`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    toast({
+      description: message,
+      status: 'info',
+      duration: 3000,
+      isClosable: true,
+      position: 'top',
+    });
+  } catch (error) {
+    toast({
+      description: error?.response?.data?.message,
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+      position: 'top',
+    });
+  }
+
+  navigate('/login');
 };

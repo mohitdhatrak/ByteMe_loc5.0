@@ -7,11 +7,9 @@
   text-align: center;
   outline-color: white;
   /* outline: white solid 10px; */
-
-
-}
-.internal-box{
-    flex-wrap: wrap;
-    text-align: start;
 }
 
+.internal-box {
+  flex-wrap: wrap;
+  text-align: start;
+}
