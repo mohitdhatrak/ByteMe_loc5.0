@@ -4,6 +4,8 @@ import {
   Spinner,
   useColorModeValue,
   Flex,
+  useToast,
+  createStandaloneToast,
 } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -11,13 +13,14 @@ import { useAuth } from './context/auth-context';
 import axios from 'axios';
 import { Error404Page } from './pages/Error404Page';
 import { Home } from './pages/Home';
-import { Login } from './pages/Login';
+import { createAction, Login } from './pages/Login';
 import { Signup } from './pages/Signup';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { NewPassword } from './pages/NewPassword';
 
 export function App() {
   const { currentUser, setCurrentUser, loading, setLoading } = useAuth();
+  const { ToastContainer } = createStandaloneToast();
 
   useEffect(() => {
     // perform network call like login to set current user if jwt not expired
@@ -67,12 +70,7 @@ export function App() {
             <Route path="*" element={<Error404Page />} />
           </Routes>
 
-          {/* <ToastContainer
-            position="bottom-right"
-            autoClose={3000}
-            theme="dark"
-            hideProgressBar={true}
-          /> */}
+          <ToastContainer />
         </>
       ) : (
         <Flex
