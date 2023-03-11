@@ -53,17 +53,16 @@ const generatecoupon = async(req,res)=>{
         console.log(coupon_length,format);
         const code = generatecode(coupon_length,format);
         console.log(code);
-        const coupon = new Coupon({owner:req.user._id,coupon_name ,coupon_type,format,Quantity,rules,discount,code:code});
+        const coupon = new Coupon({coupon_name ,coupon_type,format,Quantity,rules,discount,code:code});
         await coupon.save();
         res.status(200).json({message:"coupon generated" ,coupon:coupon});
     } 
     catch (error) {
         res.status(500).json({message:error.message});
     }
-   
-
 }
- 
+
+
 
 
 

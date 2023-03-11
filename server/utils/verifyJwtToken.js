@@ -9,6 +9,7 @@ async function verifyJwtToken(token) {
         });
 
         if (user) {
+            console.log(user);
             return user;
         } else {
             return false;

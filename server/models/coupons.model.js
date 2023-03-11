@@ -8,6 +8,12 @@ const couponSchema = new Schema({
     coupon_name:{
         type:String
     },
+    coupon_company:{
+        type:String
+    },
+    coupon_sector:{
+        type:String
+    },
     coupontype:{
         type:String,
         enum:['static' ,'dynamic']
