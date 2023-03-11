@@ -18,6 +18,8 @@ import { Signup } from './pages/Signup';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { NewPassword } from './pages/NewPassword';
 import { CouponForm } from './pages/CouponForm';
+import { MultistepForm } from './pages/CouponForm';
+import { StaticCoupons } from './pages/StaticCoupons';
 
 export function App() {
   const { currentUser, setCurrentUser, loading, setLoading } = useAuth();
@@ -53,7 +55,6 @@ export function App() {
         <>
           <Routes>
             <Route path="/" element={<Home />}></Route>
-            <Route path="/coupon-form" element={<CouponForm />}></Route>
 
             {currentUser === '' ? (
               <>
@@ -64,6 +65,18 @@ export function App() {
                   element={<ForgotPassword />}
                 ></Route>
                 <Route path="/new-password" element={<NewPassword />}></Route>
+              </>
+            ) : (
+              <Route path="*" element={<Error404Page />} />
+            )}
+
+            {currentUser !== '' ? (
+              <>
+                <Route
+                  path="/static-coupons"
+                  element={<StaticCoupons />}
+                ></Route>
+                <Route path="/coupon-form" element={<CouponForm />}></Route>
               </>
             ) : (
               <Route path="*" element={<Error404Page />} />

@@ -15,6 +15,7 @@ import {
   useColorModeValue,
   Stack,
   Image,
+  Text,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
@@ -122,13 +123,23 @@ export function Navbar() {
         />
         <HStack spacing={8} alignItems={'center'}>
           <Box>
-            {' '}
-            <Image
-              boxSize="100px"
-              objectFit="cover"
-              src={logo}
-              alt="Dan Abramov"
-            />
+            <Text
+              fontSize="2xl"
+              fontFamily="monospace"
+              fontWeight="bold"
+              display={'flex'}
+              direction={'row'}
+            >
+              <Image
+                boxSize="40px"
+                borderRadius={'50%'}
+                objectFit="cover"
+                src={logo}
+                alt="App logo"
+                mr={'2'}
+              />
+              Couponify
+            </Text>
           </Box>
           <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
             {Links.map(link => (
