@@ -26,7 +26,7 @@ import { Sidebar } from '../components/Sidebar';
 export function Home() {
   return (
     <>
-      <Navbar />
+      <Sidebar />
       <Container maxW={'7xl'}>
         <Stack
           align={'center'}
