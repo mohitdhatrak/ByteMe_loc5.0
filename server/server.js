@@ -6,8 +6,10 @@ const morgan = require("morgan");
 
 const { connectToMongoDB } = require("./db/db.connect");
 const userRouter = require("./routes/user.route");
+const couponRouter = require("./routes/coupon.route");
 
 const app = express();
+
 
 app.use(express.json()); // can use this too instead of body-parser
 app.use(express.urlencoded({ extended: true })); // support encoded bodies
@@ -31,6 +33,7 @@ if (process.env.NODE_ENV === "development") {
 connectToMongoDB();
 
 app.use("/user", userRouter);
+app.use("/api/coupon" ,couponRouter);
 
 app.use((req, res) => {
     res.status(404).json({
