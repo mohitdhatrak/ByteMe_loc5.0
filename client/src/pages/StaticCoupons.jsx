@@ -26,11 +26,11 @@ function UserCouponCard({ couponData }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
 
-  const date = new Date(couponData.rules.validtill); // convert to JS date
+  // const date = new Date(couponData.rules.validtill); // convert to JS date
 
   return (
     <>
-      <Card width={'20rem'}>
+      <Card>
         <CardHeader>
           <Heading size="md">{couponData.coupon_name}</Heading>
         </CardHeader>
@@ -71,9 +71,15 @@ function UserCouponCard({ couponData }) {
             <Box rounded="lg" p="1" m="auto">
               1. Minimum Order value: {couponData.rules?.minorder} rupees
             </Box>
-            <Box rounded="lg" p="1" m="auto">
+            {/* <Box rounded="lg" p="1" m="auto">
               2. Valid till: {date.getDate()}-{date.getMonth() + 1}-
               {date.getFullYear()}
+            </Box> */}
+            <Box rounded="lg" p="1" m="auto">
+              2. Valid till: {couponData.rules.validtill}
+            </Box>
+            <Box rounded="lg" p="1" m="auto">
+              3. Number of coupons: {couponData.quantity}
             </Box>
           </ModalBody>
         </ModalContent>
@@ -83,27 +89,67 @@ function UserCouponCard({ couponData }) {
 }
 
 export function StaticCoupons() {
-  const [userCoupons, setUserCoupons] = useState([]);
+  const [userCoupons, setUserCoupons] = useState([
+    {
+      coupon_name: 'Holi offer',
+      discount: {
+        discount_type: 'percent_off',
+        value: 10,
+      },
+      code: '84661677',
+      rules: {
+        validtill: '01-04-2023',
+        minorder: 500,
+      },
+      quantity: 3,
+    },
+    {
+      coupon_name: 'Diwali offer',
+      discount: {
+        discount_type: 'percent_off',
+        value: 15,
+      },
+      code: 'sbfG657',
+      rules: {
+        validtill: '11-11-2023',
+        minorder: 800,
+      },
+      quantity: 6,
+    },
+    {
+      coupon_name: 'Winter offer',
+      discount: {
+        discount_type: 'percent_off',
+        value: 20,
+      },
+      code: 'ABGFSGEW',
+      rules: {
+        validtill: '01-08-2023',
+        minorder: 2000,
+      },
+      quantity: 1,
+    },
+  ]);
 
-  useEffect(() => {
-    (async () => {
-      const {
-        data: { message, coupons },
-      } = await axios.get(
-        `${process.env.REACT_APP_API_ENDPOINT}/api/user/staticCoupons`,
-        {
-          withCredentials: true,
-        }
-      );
+  // useEffect(() => {
+  //   (async () => {
+  //     const {
+  //       data: { message, coupons },
+  //     } = await axios.get(
+  //       `${process.env.REACT_APP_API_ENDPOINT}/api/user/staticCoupons`,
+  //       {
+  //         withCredentials: true,
+  //       }
+  //     );
 
-      if (message === 'Coupons retrieved') {
-        setUserCoupons(coupons);
-        //Can replace with a toast or popup
-      } else {
-        //Can replace with a toast or popup
-      }
-    })();
-  }, []);
+  //     if (message === 'Coupons retrieved') {
+  //       // setUserCoupons(coupons);
+  //       //Can replace with a toast or popup
+  //     } else {
+  //       //Can replace with a toast or popup
+  //     }
+  //   })();
+  // }, []);
 
   return (
     <>
