@@ -29,7 +29,7 @@ import {
   Stat,
   StatLabel,
   StatNumber,
-  Image,
+  Image
 } from '@chakra-ui/react';
 import {
   FiHome,
@@ -44,6 +44,10 @@ import { useAuth } from '../context/auth-context';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../assets/logo.png';
+// import Carousel from '../pages/Carousel';
+import { SearchBar } from '../pages/SearchBar';
+import CustTestimonial from '../pages/CustTestimonial'
+import Footer from '../pages/Footer'
 
 const LinkItems = [
   { name: 'APIs', icon: FiHome },
@@ -101,42 +105,57 @@ export function Sidebar({ children }) {
         {/* mobilenav */}
         <MobileNav onOpen={onOpen} />
       </Box>
+      {/* <Box>
 
-      <Box
-        maxW="60vw"
-        height="90vh"
-        mx={'auto'}
-        ml={'25rem'}
-        pt={5}
-        px={{ base: 2, sm: 12, md: 17 }}
-      >
-        <chakra.h1
-          textAlign={'center'}
-          fontSize={'4xl'}
-          py={10}
-          fontWeight={'bold'}
+      <Carousel />
+      </Box> */}
+      <VStack>
+        <Box
+          maxW="60vw"
+          //height="90vh"
+          mx={'auto'}
+          ml={'25rem'}
+          pt={5}
+          px={{ base: 2, sm: 12, md: 17 }}
         >
-          What services we provide?
-        </chakra.h1>
-        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
-          <StatsCard
-            title={'Static coupons'}
-            stat={'Provide data to generate a simple static coupon'}
-          />
-          <StatsCard
-            title={'Dynamic coupons'}
-            stat={
-              'Using AI to create dynamic coupons as per user data analysis'
-            }
-          />
-          <StatsCard
-            title={'Rule engine'}
-            stat={
-              'Using a rule engine to validate coupons against a set of rules by merchant'
-            }
-          />
-        </SimpleGrid>
-      </Box>
+          <chakra.h1
+            textAlign={'center'}
+            fontSize={'4xl'}
+            py={10}
+            fontWeight={'bold'}
+          >
+            What services we provide?
+          </chakra.h1>
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
+            <StatsCard
+              title={'Static coupons'}
+              stat={'Provide data to generate a simple static coupon'}
+            />
+            <StatsCard
+              title={'Dynamic coupons'}
+              stat={
+                'Using AI to create dynamic coupons as per user data analysis'
+              }
+            />
+            <StatsCard
+              title={'Rule engine'}
+              stat={
+                'Using a rule engine to validate coupons against a set of rules by merchant'
+              }
+            />
+          </SimpleGrid>
+        </Box>
+        <Box>
+         <CustTestimonial />
+        </Box>
+        <Box>
+         <Footer />
+        </Box>
+
+        
+          
+        
+      </VStack>
     </>
   );
 }
@@ -243,8 +262,13 @@ const MobileNav = ({ onOpen, ...rest }) => {
         icon={<FiMenu />}
       />
 
-      <HStack spacing={{ base: '2', md: '6' }}>
+      <HStack spacing={{ base: '2', md: '6' }} justifyContent="space-between" display={"flex"}>
+
+        <SearchBar />
+
+
         {currentUser === '' ? <BtnsBeforeLogin /> : <BtnsAfterLogin />}
+
       </HStack>
     </Flex>
   );
