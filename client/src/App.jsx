@@ -22,6 +22,7 @@ import { StaticCoupons } from './pages/StaticCoupons';
 import { DynamicCoupons } from './pages/DynamicCoupons';
 import { StaticCouponForm } from './pages/StaticCouponForm';
 import { DynamicCouponForm } from './pages/DynamicCouponForm';
+import { ApiDocs } from './pages/ApiDocs';
 
 export function App() {
   const { currentUser, setCurrentUser, loading, setLoading } = useAuth();
@@ -57,6 +58,7 @@ export function App() {
         <>
           <Routes>
             <Route path="/" element={<Home />}></Route>
+            <Route path="/api-docs" element={<ApiDocs />}></Route>
 
             {currentUser === '' ? (
               <>

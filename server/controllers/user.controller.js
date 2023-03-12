@@ -131,7 +131,7 @@ const staticCoupons = async (req, res) => {
         const currentUser = await req.user;
         const coupons = await Coupon.find({
             owner: currentUser._id,
-            coupontype: "static",
+            coupon_type: "static",
         });
         // console.log(coupons[0]._id, coupons[1]._id);
         res.status(201).json({
@@ -148,7 +148,7 @@ const dynamicCoupons = async (req, res) => {
         const currentUser = await req.user;
         const coupons = await Coupon.find({
             owner: currentUser._id,
-            coupontype: "dynamic",
+            coupon_type: "dynamic",
         });
         // console.log(coupons[0]._id, coupons[1]._id);
         res.status(201).json({

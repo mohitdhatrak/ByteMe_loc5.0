@@ -29,7 +29,7 @@ import {
   Stat,
   StatLabel,
   StatNumber,
-  Image
+  Image,
 } from '@chakra-ui/react';
 import {
   FiHome,
@@ -46,13 +46,14 @@ import axios from 'axios';
 import logo from '../assets/logo.png';
 // import Carousel from '../pages/Carousel';
 import { SearchBar } from '../pages/SearchBar';
-import CustTestimonial from '../pages/CustTestimonial'
-import Footer from '../pages/Footer'
+import CustTestimonial from '../pages/CustTestimonial';
+import Footer from '../pages/Footer';
 
 const LinkItems = [
-  { name: 'APIs', icon: FiHome },
-  { name: 'Generate Coupon', icon: FiTrendingUp },
-  { name: 'My Coupons', icon: FiCompass },
+  { name: 'APIs', icon: FiHome, href: '/api-docs' },
+  { name: 'Generate Coupon', icon: FiTrendingUp, href: '/coupon-form' },
+  { name: 'Static coupons', icon: FiCompass, href: '/static-coupons' },
+  { name: 'Dynamic coupons', icon: FiCompass, href: '/dynamic-coupons' },
   { name: 'Favourites', icon: FiStar },
   { name: 'Settings', icon: FiSettings },
 ];
@@ -146,15 +147,11 @@ export function Sidebar({ children }) {
           </SimpleGrid>
         </Box>
         <Box>
-         <CustTestimonial />
+          <CustTestimonial />
         </Box>
         <Box>
-         <Footer />
+          <Footer />
         </Box>
-
-        
-          
-        
       </VStack>
     </>
   );
@@ -195,7 +192,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       </Flex>
 
       {LinkItems.map(link => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} href={link.href}>
           {link.name}
         </NavItem>
       ))}
@@ -203,10 +200,10 @@ const SidebarContent = ({ onClose, ...rest }) => {
   );
 };
 
-const NavItem = ({ icon, children, ...rest }) => {
+const NavItem = ({ icon, href, children, ...rest }) => {
   return (
     <Link
-      href="#"
+      href={href}
       style={{ textDecoration: 'none' }}
       _focus={{ boxShadow: 'none' }}
     >
@@ -262,13 +259,14 @@ const MobileNav = ({ onOpen, ...rest }) => {
         icon={<FiMenu />}
       />
 
-      <HStack spacing={{ base: '2', md: '6' }} justifyContent="space-between" display={"flex"}>
-
+      <HStack
+        spacing={{ base: '2', md: '6' }}
+        justifyContent="space-between"
+        display={'flex'}
+      >
         <SearchBar />
 
-
         {currentUser === '' ? <BtnsBeforeLogin /> : <BtnsAfterLogin />}
-
       </HStack>
     </Flex>
   );
@@ -335,7 +333,7 @@ const BtnsAfterLogin = () => {
             bg={useColorModeValue('white', 'gray.900')}
             borderColor={useColorModeValue('gray.200', 'gray.700')}
           >
-            <MenuItem>Profile</MenuItem>
+            <MenuItem onClick={() => navigate('/')}>Home</MenuItem>
             <MenuItem
               onClick={() => logUserOut(navigate, setCurrentUser, toast)}
             >
