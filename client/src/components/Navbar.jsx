@@ -16,11 +16,14 @@ import {
   Stack,
   Image,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { useAuth } from '../context/auth-context';
 import logo from '../assets/logo.png';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Links = [];
 
@@ -77,34 +80,79 @@ const BtnsBeforeLogin = () => {
 };
 
 const BtnsAfterLogin = () => {
-  return (
-    <Menu>
-      <Stack direction={'row'} spacing={7}>
-        <ColorModeSwitcher />
+  const navigate = useNavigate();
+  const { setCurrentUser } = useAuth();
+  const toast = useToast();
 
-        <MenuButton
-          as={Button}
-          rounded={'full'}
-          variant={'link'}
-          cursor={'pointer'}
-          minW={0}
-        >
-          <Avatar
-            size={'sm'}
-            src={
-              'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-            }
-          />
-        </MenuButton>
-      </Stack>
-      <MenuList>
-        <MenuItem>Link 1</MenuItem>
-        <MenuItem>Link 2</MenuItem>
-        <MenuDivider />
-        <MenuItem>Logout</MenuItem>
-      </MenuList>
-    </Menu>
+  return (
+    <>
+      <ColorModeSwitcher />
+
+      <Flex alignItems={'center'} ml={'1rem'}>
+        <Menu>
+          <MenuButton
+            py={2}
+            transition="all 0.3s"
+            _focus={{ boxShadow: 'none' }}
+          >
+            <HStack>
+              <Avatar
+                size={'sm'}
+                src={
+                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
+                }
+              />
+            </HStack>
+          </MenuButton>
+          <MenuList
+            minW={'8rem !important'}
+            bg={useColorModeValue('white', 'gray.900')}
+            borderColor={useColorModeValue('gray.200', 'gray.700')}
+          >
+            <MenuItem onClick={() => navigate('/')}>Home</MenuItem>
+            <MenuItem
+              onClick={() => logUserOut(navigate, setCurrentUser, toast)}
+            >
+              Sign out
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </Flex>
+    </>
   );
+};
+
+const logUserOut = async (navigate, setCurrentUser, toast) => {
+  setCurrentUser('');
+
+  try {
+    const {
+      data: { message },
+    } = await axios.get(
+      `${process.env.REACT_APP_API_ENDPOINT}/api/user/logout`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    toast({
+      description: message,
+      status: 'info',
+      duration: 3000,
+      isClosable: true,
+      position: 'top',
+    });
+  } catch (error) {
+    toast({
+      description: error?.response?.data?.message,
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+      position: 'top',
+    });
+  }
+
+  navigate('/login');
 };
 
 export function Navbar() {

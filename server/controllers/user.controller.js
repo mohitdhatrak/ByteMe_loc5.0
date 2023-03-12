@@ -126,20 +126,45 @@ const getUser = async (req, res) => {
     });
 };
 
-const mycoupons = async(req,res)=>{
+const staticCoupons = async (req, res) => {
     try {
-        const coupons = await Coupon.find({owner:req.user._id});
-        res.status(201).json({coupons:coupons});
-        
+        const currentUser = await req.user;
+        const coupons = await Coupon.find({
+            owner: currentUser._id,
+            coupontype: "static",
+        });
+        // console.log(coupons[0]._id, coupons[1]._id);
+        res.status(201).json({
+            coupons: coupons,
+            message: "Coupons retrieved",
+        });
     } catch (error) {
-        res.status(501).json({message:error.message});
+        res.status(501).json({ message: error.message });
     }
-    
-}
+};
+
+const dynamicCoupons = async (req, res) => {
+    try {
+        const currentUser = await req.user;
+        const coupons = await Coupon.find({
+            owner: currentUser._id,
+            coupontype: "dynamic",
+        });
+        // console.log(coupons[0]._id, coupons[1]._id);
+        res.status(201).json({
+            coupons: coupons,
+            message: "Coupons retrieved",
+        });
+    } catch (error) {
+        res.status(501).json({ message: error.message });
+    }
+};
+
 module.exports = {
     signup,
     login,
     logout,
     getUser,
-    mycoupons
+    staticCoupons,
+    dynamicCoupons,
 };
