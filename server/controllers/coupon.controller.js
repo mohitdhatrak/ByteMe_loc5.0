@@ -39,6 +39,8 @@ const generatecode = (length, format) => {
 };
 
 const generateStatic = async (req, res) => {
+    const currentUser = await req.user;
+
     try {
         const {
             coupon_name,
@@ -58,7 +60,7 @@ const generateStatic = async (req, res) => {
             rules,
             discount,
             code: code,
-            owner: req.user._id,
+            owner: currentUser._id,
         });
         await coupon.save();
         res.status(200).json({ message: "Coupon generated", coupon: coupon });
@@ -68,6 +70,8 @@ const generateStatic = async (req, res) => {
 };
 
 const generateDynamic = async (req, res) => {
+    const currentUser = await req.user;
+
     try {
         const {
             userId,
@@ -85,7 +89,7 @@ const generateDynamic = async (req, res) => {
             userId,
             discount,
             code: code,
-            owner: req.user._id,
+            owner: currentUser._id,
         });
         await coupon.save();
         res.status(200).json({ message: "Coupon generated", coupon: coupon });
