@@ -82,7 +82,7 @@ function UserCouponCard({ couponData }) {
   );
 }
 
-export function StaticCoupons() {
+export function DynamicCoupons() {
   const [userCoupons, setUserCoupons] = useState([]);
 
   useEffect(() => {
@@ -90,7 +90,7 @@ export function StaticCoupons() {
       const {
         data: { message, coupons },
       } = await axios.get(
-        `${process.env.REACT_APP_API_ENDPOINT}/api/user/staticCoupons`,
+        `${process.env.REACT_APP_API_ENDPOINT}/api/user/dynamicCoupons`,
         {
           withCredentials: true,
         }
@@ -116,7 +116,7 @@ export function StaticCoupons() {
         fontSize={'2xl'}
         mt={'2rem'}
       >
-        All of your static coupons:
+        A few dynamic coupons recommendations:
       </Heading>
 
       <SimpleGrid

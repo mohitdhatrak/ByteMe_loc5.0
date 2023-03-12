@@ -18,8 +18,10 @@ import { Signup } from './pages/Signup';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { NewPassword } from './pages/NewPassword';
 import { CouponForm } from './pages/CouponForm';
-import { MultistepForm } from './pages/CouponForm';
 import { StaticCoupons } from './pages/StaticCoupons';
+import { DynamicCoupons } from './pages/DynamicCoupons';
+import { StaticCouponForm } from './pages/StaticCouponForm';
+import { DynamicCouponForm } from './pages/DynamicCouponForm';
 
 export function App() {
   const { currentUser, setCurrentUser, loading, setLoading } = useAuth();
@@ -76,7 +78,19 @@ export function App() {
                   path="/static-coupons"
                   element={<StaticCoupons />}
                 ></Route>
+                <Route
+                  path="/dynamic-coupons"
+                  element={<DynamicCoupons />}
+                ></Route>
                 <Route path="/coupon-form" element={<CouponForm />}></Route>
+                <Route
+                  path="/static-coupon-form"
+                  element={<StaticCouponForm />}
+                ></Route>
+                <Route
+                  path="/static-coupon-form"
+                  element={<DynamicCouponForm />}
+                ></Route>
               </>
             ) : (
               <Route path="*" element={<Error404Page />} />
