@@ -78,9 +78,6 @@ function UserCouponCard({ couponData }) {
             <Box rounded="lg" p="1" m="auto">
               2. Valid till: {couponData.rules.validtill}
             </Box>
-            <Box rounded="lg" p="1" m="auto">
-              3. Number of coupons: {couponData.quantity}
-            </Box>
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -98,10 +95,9 @@ export function DynamicCoupons() {
       },
       code: '84661677',
       rules: {
-        validtill: '01-04-2023',
+        validtill: '12hrs',
         minorder: 500,
       },
-      quantity: 3,
     },
     {
       coupon_name: 'Custom offer',
@@ -111,10 +107,9 @@ export function DynamicCoupons() {
       },
       code: 'sbfG657',
       rules: {
-        validtill: '11-11-2023',
+        validtill: '24hrs',
         minorder: 800,
       },
-      quantity: 6,
     },
     {
       coupon_name: 'Custom offer',
@@ -124,10 +119,9 @@ export function DynamicCoupons() {
       },
       code: 'ABGFSGEW',
       rules: {
-        validtill: '01-08-2023',
+        validtill: '18hrs',
         minorder: 2000,
       },
-      quantity: 1,
     },
   ]);
 
